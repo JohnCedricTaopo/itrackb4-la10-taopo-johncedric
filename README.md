@@ -1,13 +1,13 @@
-## Lab Activity 9 Answers
+## Lab Activity 10 Answers
 
-### F1. Which column did you make nullable, and why?
+### G1. Which column did you turn into a table, and why?
 
-I made the `remarks` column nullable because a character can be added even when there is no extra information to write. I did not make the main fields nullable because every character should have a name, element, weapon, rarity, and playable status.
+I turned the `element` column into an `elements` table because the same element names are repeated among different characters. An element is also a thing that could have its own details later, unlike rarity or the playable true-or-false value.
 
-### F2. Which step failed first for you, and what did the error say?
+### G2. What number did Screenshot 6 show, and why exactly that number?
 
-The first planned failure happened when I tried to create a Character before adding `$fillable`. Laravel gave a mass-assignment error because the model did not yet allow the values to be filled. I fixed it by adding the character columns to `$fillable`.
+My Screenshot 6 showed 6 queries because I had five seeded characters. Eloquent first queried the characters table, then the view requested each character's element separately, making one original query plus five relationship queries. After adding `with('element')`, the count became 2.
 
-### F3. Why did the pages still work even though you changed no Blade file?
+### G3. What would break if the belongsTo method were plural?
 
-The Blade files still use the same variable names and character fields. I changed the controller so it supplies those variables from Eloquent instead of the JSON file. Because the data shape stayed the same, the views did not need to change.
+The method must be named `element()` because one character belongs to one element. Eloquent uses that singular name to look for the `element_id` foreign key. If I named it `elements()`, Eloquent would look for the wrong relationship and `$character->element->name` would no longer work correctly.
