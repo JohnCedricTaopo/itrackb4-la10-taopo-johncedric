@@ -3,15 +3,23 @@
 namespace Database\Seeders;
 
 use App\Models\Character;
+use App\Models\Element;
 use Illuminate\Database\Seeder;
 
 class CharacterSeeder extends Seeder
 {
     public function run(): void
     {
+        $anemo = Element::create(['name' => 'Anemo']);
+        $cryo = Element::create(['name' => 'Cryo']);
+        $electro = Element::create(['name' => 'Electro']);
+        $pyro = Element::create(['name' => 'Pyro']);
+        $dendro = Element::create(['name' => 'Dendro']);
+        $hydro = Element::create(['name' => 'Hydro']);
+
         Character::create([
             'name' => 'Traveler',
-            'element' => 'Anemo',
+            'element_id' => $anemo->id,
             'weapon' => 'Sword',
             'rarity' => 5,
             'is_playable' => true,
@@ -20,7 +28,7 @@ class CharacterSeeder extends Seeder
 
         Character::create([
             'name' => 'Odette',
-            'element' => 'Cryo',
+            'element_id' => $cryo->id,
             'weapon' => 'Sword',
             'rarity' => 5,
             'is_playable' => true,
@@ -29,7 +37,7 @@ class CharacterSeeder extends Seeder
 
         Character::create([
             'name' => 'Sandrone',
-            'element' => 'Cryo',
+            'element_id' => $cryo->id,
             'weapon' => 'Claymore',
             'rarity' => 5,
             'is_playable' => true,
@@ -38,7 +46,7 @@ class CharacterSeeder extends Seeder
 
         Character::create([
             'name' => 'Raiden Shogun',
-            'element' => 'Electro',
+            'element_id' => $electro->id,
             'weapon' => 'Polearm',
             'rarity' => 5,
             'is_playable' => true,
@@ -47,7 +55,7 @@ class CharacterSeeder extends Seeder
 
         Character::create([
             'name' => 'Bennett',
-            'element' => 'Pyro',
+            'element_id' => $pyro->id,
             'weapon' => 'Sword',
             'rarity' => 4,
             'is_playable' => true,

@@ -1,55 +1,54 @@
 @extends('layouts.app')
 
-@section('title', $character['name'] . ' Details')
+@section('title', $character->name)
 
 @section('content')
     <div class="card shadow-sm">
         <div class="card-body">
             <p class="text-uppercase text-primary fw-semibold small mb-1">
-                Character detail
+                Character details
             </p>
 
-            <h2 class="card-title">{{ $character['name'] }}</h2>
-            <p class="card-text text-muted">
-                Complete information for character ID {{ $character['id'] }}.
-            </p>
+            <h2 class="mb-4">
+                {{ $character->name }}
+            </h2>
 
-            <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted d-block">ID</small>
-                        <strong>{{ $character['id'] }}</strong>
-                    </div>
-                </div>
+            <dl class="row">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ $character->id }}</dd>
 
-                <div class="col-md-4">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted d-block">Element</small>
-                        <strong>{{ $character['element'] }}</strong>
-                    </div>
-                </div>
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">{{ $character->name }}</dd>
 
-                <div class="col-md-4">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted d-block">Weapon</small>
-                        <strong>{{ $character['weapon'] }}</strong>
-                    </div>
-                </div>
+                <dt class="col-sm-3">Element</dt>
+                <dd class="col-sm-9">
+                    {{ $character->element->name }}
+                </dd>
 
-                <div class="col-md-4">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted d-block">Rarity</small>
-                        <strong>{{ $character['rarity'] }}-Star</strong>
-                    </div>
-                </div>
-            </div>
+                <dt class="col-sm-3">Weapon</dt>
+                <dd class="col-sm-9">{{ $character->weapon }}</dd>
 
-            <a class="btn btn-primary" href="{{ route('characters.index') }}">
-                Back to all characters
-            </a>
+                <dt class="col-sm-3">Rarity</dt>
+                <dd class="col-sm-9">
+                    {{ $character->rarity }}-Star
+                </dd>
 
-            <a class="btn btn-outline-secondary" href="{{ route('characters.featured') }}">
-                Featured page
+                <dt class="col-sm-3">Playable</dt>
+                <dd class="col-sm-9">
+                    {{ $character->is_playable ? 'Yes' : 'No' }}
+                </dd>
+
+                <dt class="col-sm-3">Remarks</dt>
+                <dd class="col-sm-9">
+                    {{ $character->remarks ?: 'No remarks.' }}
+                </dd>
+            </dl>
+
+            <a
+                class="btn btn-primary"
+                href="{{ route('characters.index') }}"
+            >
+                Back to characters
             </a>
         </div>
     </div>

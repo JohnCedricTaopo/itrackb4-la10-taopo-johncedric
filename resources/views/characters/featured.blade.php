@@ -3,38 +3,43 @@
 @section('title', 'Featured Character')
 
 @section('content')
-    <div class="card border-warning shadow-sm">
-        <div class="card-header bg-warning-subtle">
-            Featured character
-        </div>
-
+    <div class="card shadow-sm">
         <div class="card-body">
-            <h2 class="card-title">{{ $character['name'] }}</h2>
-            <p class="card-text">
-                This character was selected as the featured record for the archive.
+            <p class="text-uppercase text-warning fw-semibold small mb-1">
+                Featured character
             </p>
 
-            <ul class="list-group list-group-flush mb-4">
-                <li class="list-group-item">
-                    <strong>ID:</strong> {{ $character['id'] }}
-                </li>
-                <li class="list-group-item">
-                    <strong>Element:</strong> {{ $character['element'] }}
-                </li>
-                <li class="list-group-item">
-                    <strong>Weapon:</strong> {{ $character['weapon'] }}
-                </li>
-                <li class="list-group-item">
-                    <strong>Rarity:</strong> {{ $character['rarity'] }}-Star
-                </li>
-            </ul>
+            <h2 class="mb-4">
+                {{ $character->name }}
+            </h2>
 
-            <a class="btn btn-warning" href="{{ route('characters.show', $character['id']) }}">
-                Open full detail
-            </a>
+            <dl class="row">
+                <dt class="col-sm-3">Element</dt>
+                <dd class="col-sm-9">
+                    {{ $character->element->name }}
+                </dd>
 
-            <a class="btn btn-outline-secondary" href="{{ route('characters.index') }}">
-                Back to archive
+                <dt class="col-sm-3">Weapon</dt>
+                <dd class="col-sm-9">
+                    {{ $character->weapon }}
+                </dd>
+
+                <dt class="col-sm-3">Rarity</dt>
+                <dd class="col-sm-9">
+                    {{ $character->rarity }}-Star
+                </dd>
+
+                <dt class="col-sm-3">Remarks</dt>
+                <dd class="col-sm-9">
+                    {{ $character->remarks ?: 'No remarks.' }}
+                </dd>
+            </dl>
+
+            <a
+                class="btn btn-primary"
+                href="{{ route('characters.index') }}"
+            >
+                Back to characters
             </a>
         </div>
     </div>

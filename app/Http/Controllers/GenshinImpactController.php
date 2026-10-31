@@ -2,61 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Character;
+use App\Models\Element;
+use Illuminate\Http\Request;
 
 class GenshinImpactController extends Controller
 {
+    public function index(Request $request)
+    {
+        $element = $request->query('element', 'all');
+        $rarity = $request->query('rarity', 'all');
 
-   public function index(Request $request)
-{
-    $characters = Character::all();
+        $query = Character::with('element');
 
-    $element = $request->query('element', 'all');
-    $rarity = $request->query('rarity', 'all');
+        if ($element !== 'all' && $element !== '') {
+            $query->where('element_id', $element);
+        }
 
-    if ($element !== 'all' && $element !== '') {
-        $characters = $characters->filter(
-            fn ($character): bool =>
-                strcasecmp($character->element, $element) === 0
-        );
+        if ($rarity !== 'all' && $rarity !== '') {
+            $query->where('rarity', $rarity);
+        }
+
+        $characters = $query->get();
+        $elements = Element::all();
+
+        return view('characters.index', [
+            'characters' => $characters,
+            'elements' => $elements,
+            'element' => $element,
+            'rarity' => $rarity,
+        ]);
     }
-
-    if ($rarity !== 'all' && $rarity !== '') {
-        $characters = $characters->filter(
-            fn ($character): bool =>
-                (string) $character->rarity === (string) $rarity
-        );
-    }
-
-    return view('characters.index', [
-        'characters' => $characters,
-        'element' => $element,
-        'rarity' => $rarity,
-    ]);
-}
-
 
     public function create()
     {
-        return view('characters.create');
+        $elements = Element::all();
+
+        return view('characters.create', compact('elements'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|max:100',
-            'element' => 'required|in:Anemo,Cryo,Electro,Pyro,Dendro,Hydro',
+            'element_id' => 'required|exists:elements,id',
             'weapon' => 'required|in:Sword,Claymore,Polearm,Catalyst,Bow',
             'rarity' => 'required|numeric|in:4,5',
+            'is_playable' => 'required|boolean',
+            'remarks' => 'nullable',
         ]);
 
-        $character = new Character();
-        $character->name = $validated['name'];
-        $character->element = $validated['element'];
-        $character->weapon = $validated['weapon'];
-        $character->rarity = (int) $validated['rarity'];
-        $character->save();
+        Character::create($validated);
 
         return redirect()
             ->route('characters.index')
@@ -70,17 +66,17 @@ class GenshinImpactController extends Controller
         return view('characters.show', compact('character'));
     }
 
-    public function edit(int $id)
+    public function edit($id)
     {
         // Not implemented yet.
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
         // Not implemented yet.
     }
 
-    public function destroy(int $id)
+    public function destroy($id)
     {
         // Not implemented yet.
     }
@@ -91,5 +87,4 @@ class GenshinImpactController extends Controller
 
         return view('characters.featured', compact('character'));
     }
-
 }
